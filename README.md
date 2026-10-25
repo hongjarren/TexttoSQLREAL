@@ -9,7 +9,7 @@
 
 An enterprise-grade **natural language to SQL translation system** combining fine-tuned sequence-to-sequence language models with deterministic fallback parsing, database schema validation, and an active learning feedback loop.
 
-Designed and optimized for enterprise inventory management and schema querying (e.g., `vMTL_SYSTEM_ITEMS`), supporting complex multi-attribute filtering, date ranges, and status constraints.
+Designed and optimized for enterprise inventory management and schema querying (e.g., `ENTERPRISE_INVENTORY`), supporting complex multi-attribute filtering, date ranges, and status constraints.
 
 ---
 
@@ -25,7 +25,7 @@ flowchart TD
     
     PostProcessor --> Check{"Valid SQL & Conforms to\nDatabase Schema?"}
     
-    Check -- "YES (High Confidence)" --> SQLOutput["Validated SQL Query\n(SELECT ... FROM vMTL_SYSTEM_ITEMS ...)"]
+    Check -- "YES (High Confidence)" --> SQLOutput["Validated SQL Query\n(SELECT ... FROM ENTERPRISE_INVENTORY ...)"]
     Check -- "NO (Low Confidence / Syntax Error)" --> FallbackEngine["Deterministic Pattern Matcher\n(_pattern_match_sql)"]
     FallbackEngine --> SQLOutput
     
@@ -116,11 +116,11 @@ model.retrain_from_feedback(output_dir="./text_to_sql_results")
 
 | Natural Language Intent | Generated SQL Translation |
 | :--- | :--- |
-| **All Records Selection** | `SELECT * FROM vMTL_SYSTEM_ITEMS` |
-| **Code & Entity Filtering** | `SELECT PART_NUMBER, DESCRIPTION FROM vMTL_SYSTEM_ITEMS WHERE ER_CODE = 'XYZ789'` |
-| **Date Range Constraints** | `SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2024-02-01' AND CREATION_DATE <= '2024-02-29'` |
-| **Status Constraints** | `SELECT * FROM vMTL_SYSTEM_ITEMS WHERE INVENTORY_ITEM_STATUS_CODE = 'ACTIVE'` |
-| **Quantity / Price Thresholds** | `SELECT * FROM vMTL_SYSTEM_ITEMS WHERE LIST_PRICE_PER_UNIT > 100` |
+| **All Records Selection** | `SELECT * FROM ENTERPRISE_INVENTORY` |
+| **Code & Entity Filtering** | `SELECT PART_NUMBER, DESCRIPTION FROM ENTERPRISE_INVENTORY WHERE ER_CODE = 'XYZ789'` |
+| **Date Range Constraints** | `SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2024-02-01' AND CREATION_DATE <= '2024-02-29'` |
+| **Status Constraints** | `SELECT * FROM ENTERPRISE_INVENTORY WHERE INVENTORY_ITEM_STATUS_CODE = 'ACTIVE'` |
+| **Quantity / Price Thresholds** | `SELECT * FROM ENTERPRISE_INVENTORY WHERE LIST_PRICE_PER_UNIT > 100` |
 
 ---
 

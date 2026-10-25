@@ -110,527 +110,527 @@ class TextToSQLModel:
         else:
             # Balanced sample data covering various SQL operations
             data = [
-                {"question": "Show me all items", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS"},
-                {"question": "List all part numbers", "sql": "SELECT PART_NUMBER FROM vMTL_SYSTEM_ITEMS"},
-                {"question": "Get all descriptions of items", "sql": "SELECT DESCRIPTION FROM vMTL_SYSTEM_ITEMS"},
-                {"question": "Show items that are not orderable", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE ORDERABLE_ON_WEB_FLAG = 'N'"},
-                {"question": "List all items with a price greater than 100", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE LIST_PRICE_PER_UNIT > 100"},
-                {"question": "Get items with a warranty", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE WARRANTY_VENDOR_ID IS NOT NULL"},
-                {"question": "Get all items in a specific organization", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE ORGANIZATION_ID = 1"},
-                {"question": "List all items with a certain inventory status", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE INVENTORY_ITEM_STATUS_CODE = 'ACTIVE'"},
-                {"question": "Show all items from a specific supplier", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE SUPPLIER = 'SupplierA'"},
-                {"question": "Get the planning make-buy code for each item", "sql": "SELECT PART_NUMBER, PLANNING_MAKE_BUY_CODE_NAME FROM vMTL_SYSTEM_ITEMS"},
-                {"question": "Find all items with a minimum order quantity of 5", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE MINIMUM_ORDER_QUANTITY >= 5"},
-                {"question": "Show the list of items with a cost of sales account", "sql": "SELECT PART_NUMBER, COST_OF_SALES_ACCOUNT FROM vMTL_SYSTEM_ITEMS"},
-                {"question": "List all items eligible for internal order", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE INTERNAL_ORDER_ENABLED_FLAG = 'Y'"},
-                {"question": "Find all items with fixed lead time", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE FIXED_LEAD_TIME IS NOT NULL"},
-                {"question": "Get all items in a specific location", "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE LOCATION_CONTROL_CODE = 'LOC1'"},
+                {"question": "Show me all items", "sql": "SELECT * FROM ENTERPRISE_INVENTORY"},
+                {"question": "List all part numbers", "sql": "SELECT PART_NUMBER FROM ENTERPRISE_INVENTORY"},
+                {"question": "Get all descriptions of items", "sql": "SELECT DESCRIPTION FROM ENTERPRISE_INVENTORY"},
+                {"question": "Show items that are not orderable", "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE ORDERABLE_ON_WEB_FLAG = 'N'"},
+                {"question": "List all items with a price greater than 100", "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE LIST_PRICE_PER_UNIT > 100"},
+                {"question": "Get items with a warranty", "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE WARRANTY_VENDOR_ID IS NOT NULL"},
+                {"question": "Get all items in a specific organization", "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE ORGANIZATION_ID = 1"},
+                {"question": "List all items with a certain inventory status", "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE INVENTORY_ITEM_STATUS_CODE = 'ACTIVE'"},
+                {"question": "Show all items from a specific supplier", "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE SUPPLIER = 'SupplierA'"},
+                {"question": "Get the planning make-buy code for each item", "sql": "SELECT PART_NUMBER, PLANNING_MAKE_BUY_CODE_NAME FROM ENTERPRISE_INVENTORY"},
+                {"question": "Find all items with a minimum order quantity of 5", "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE MINIMUM_ORDER_QUANTITY >= 5"},
+                {"question": "Show the list of items with a cost of sales account", "sql": "SELECT PART_NUMBER, COST_OF_SALES_ACCOUNT FROM ENTERPRISE_INVENTORY"},
+                {"question": "List all items eligible for internal order", "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE INTERNAL_ORDER_ENABLED_FLAG = 'Y'"},
+                {"question": "Find all items with fixed lead time", "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE FIXED_LEAD_TIME IS NOT NULL"},
+                {"question": "Get all items in a specific location", "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE LOCATION_CONTROL_CODE = 'LOC1'"},
                 
                 {"question": "Show me all items along with their supplier names", 
-                "sql": "SELECT vMTL_SYSTEM_ITEMS.PART_NUMBER, vMTL_SYSTEM_ITEMS.DESCRIPTION, suppliers.SUPPLIER_NAME FROM vMTL_SYSTEM_ITEMS JOIN suppliers ON vMTL_SYSTEM_ITEMS.SUPPLIER = suppliers.SUPPLIER_ID"},
+                "sql": "SELECT ENTERPRISE_INVENTORY.PART_NUMBER, ENTERPRISE_INVENTORY.DESCRIPTION, suppliers.SUPPLIER_NAME FROM ENTERPRISE_INVENTORY JOIN suppliers ON ENTERPRISE_INVENTORY.SUPPLIER = suppliers.SUPPLIER_ID"},
                 
                 {"question": "List all items with their current stock levels and their corresponding warehouse locations", 
-                "sql": "SELECT vMTL_SYSTEM_ITEMS.PART_NUMBER, vMTL_SYSTEM_ITEMS.DESCRIPTION, inventory_levels.STOCK_LEVEL, warehouse.LOCATION_NAME FROM vMTL_SYSTEM_ITEMS JOIN inventory_levels ON vMTL_SYSTEM_ITEMS.INVENTORY_ITEM_ID = inventory_levels.INVENTORY_ITEM_ID JOIN warehouse ON inventory_levels.WAREHOUSE_ID = warehouse.WAREHOUSE_ID"},
+                "sql": "SELECT ENTERPRISE_INVENTORY.PART_NUMBER, ENTERPRISE_INVENTORY.DESCRIPTION, inventory_levels.STOCK_LEVEL, warehouse.LOCATION_NAME FROM ENTERPRISE_INVENTORY JOIN inventory_levels ON ENTERPRISE_INVENTORY.INVENTORY_ITEM_ID = inventory_levels.INVENTORY_ITEM_ID JOIN warehouse ON inventory_levels.WAREHOUSE_ID = warehouse.WAREHOUSE_ID"},
                 
                 {"question": "Get all items that have a warranty and are from a specific supplier", 
-                "sql": "SELECT PART_NUMBER, DESCRIPTION, WARRANTY_VENDOR_ID FROM vMTL_SYSTEM_ITEMS WHERE WARRANTY_VENDOR_ID IS NOT NULL AND SUPPLIER = 'SupplierA'"},
+                "sql": "SELECT PART_NUMBER, DESCRIPTION, WARRANTY_VENDOR_ID FROM ENTERPRISE_INVENTORY WHERE WARRANTY_VENDOR_ID IS NOT NULL AND SUPPLIER = 'SupplierA'"},
                 
                 {"question": "List all items that have been recently updated and their corresponding inventory status", 
-                "sql": "SELECT PART_NUMBER, DESCRIPTION, LAST_UPDATE_DATE, INVENTORY_ITEM_STATUS_CODE FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE > '2025-01-01'"},
+                "sql": "SELECT PART_NUMBER, DESCRIPTION, LAST_UPDATE_DATE, INVENTORY_ITEM_STATUS_CODE FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE > '2025-01-01'"},
                 
                 {"question": "Find items with the highest price from each inventory organization", 
-                "sql": "SELECT ORGANIZATION_ID, PART_NUMBER, DESCRIPTION, MAX(LIST_PRICE_PER_UNIT) AS MAX_PRICE FROM vMTL_SYSTEM_ITEMS GROUP BY ORGANIZATION_ID"},
+                "sql": "SELECT ORGANIZATION_ID, PART_NUMBER, DESCRIPTION, MAX(LIST_PRICE_PER_UNIT) AS MAX_PRICE FROM ENTERPRISE_INVENTORY GROUP BY ORGANIZATION_ID"},
                 
                 {"question": "Get the items with the highest inventory levels by warehouse location", 
-                "sql": "SELECT warehouse.LOCATION_NAME, vMTL_SYSTEM_ITEMS.PART_NUMBER, inventory_levels.STOCK_LEVEL FROM inventory_levels JOIN vMTL_SYSTEM_ITEMS ON inventory_levels.INVENTORY_ITEM_ID = vMTL_SYSTEM_ITEMS.INVENTORY_ITEM_ID JOIN warehouse ON inventory_levels.WAREHOUSE_ID = warehouse.WAREHOUSE_ID WHERE inventory_levels.STOCK_LEVEL = (SELECT MAX(STOCK_LEVEL) FROM inventory_levels WHERE WAREHOUSE_ID = warehouse.WAREHOUSE_ID)"},
+                "sql": "SELECT warehouse.LOCATION_NAME, ENTERPRISE_INVENTORY.PART_NUMBER, inventory_levels.STOCK_LEVEL FROM inventory_levels JOIN ENTERPRISE_INVENTORY ON inventory_levels.INVENTORY_ITEM_ID = ENTERPRISE_INVENTORY.INVENTORY_ITEM_ID JOIN warehouse ON inventory_levels.WAREHOUSE_ID = warehouse.WAREHOUSE_ID WHERE inventory_levels.STOCK_LEVEL = (SELECT MAX(STOCK_LEVEL) FROM inventory_levels WHERE WAREHOUSE_ID = warehouse.WAREHOUSE_ID)"},
                 
                 {"question": "List all items that are marked as orderable on the web along with their supplier and inventory status", 
-                "sql": "SELECT PART_NUMBER, DESCRIPTION, SUPPLIER, INVENTORY_ITEM_STATUS_CODE FROM vMTL_SYSTEM_ITEMS WHERE ORDERABLE_ON_WEB_FLAG = 'Y'"},
+                "sql": "SELECT PART_NUMBER, DESCRIPTION, SUPPLIER, INVENTORY_ITEM_STATUS_CODE FROM ENTERPRISE_INVENTORY WHERE ORDERABLE_ON_WEB_FLAG = 'Y'"},
                 
                 {"question": "Show all items with their cost and sales accounts", 
-                "sql": "SELECT PART_NUMBER, COST_OF_SALES_ACCOUNT, SALES_ACCOUNT FROM vMTL_SYSTEM_ITEMS JOIN sales_accounts ON vMTL_SYSTEM_ITEMS.SALES_ACCOUNT_ID = sales_accounts.SALES_ACCOUNT_ID"},
+                "sql": "SELECT PART_NUMBER, COST_OF_SALES_ACCOUNT, SALES_ACCOUNT FROM ENTERPRISE_INVENTORY JOIN sales_accounts ON ENTERPRISE_INVENTORY.SALES_ACCOUNT_ID = sales_accounts.SALES_ACCOUNT_ID"},
                 
                 {"question": "List all items with a planning time fence greater than 30 days", 
-                "sql": "SELECT PART_NUMBER, PLANNING_TIME_FENCE_DAYS, DESCRIPTION FROM vMTL_SYSTEM_ITEMS WHERE PLANNING_TIME_FENCE_DAYS > 30"},
+                "sql": "SELECT PART_NUMBER, PLANNING_TIME_FENCE_DAYS, DESCRIPTION FROM ENTERPRISE_INVENTORY WHERE PLANNING_TIME_FENCE_DAYS > 30"},
                 
                 {"question": "Show the total number of items ordered by each buyer along with their total cost", 
-                "sql": "SELECT BUYER_NAME, COUNT(PART_NUMBER) AS ITEM_COUNT, SUM(LIST_PRICE_PER_UNIT) AS TOTAL_COST FROM vMTL_SYSTEM_ITEMS GROUP BY BUYER_NAME"},
+                "sql": "SELECT BUYER_NAME, COUNT(PART_NUMBER) AS ITEM_COUNT, SUM(LIST_PRICE_PER_UNIT) AS TOTAL_COST FROM ENTERPRISE_INVENTORY GROUP BY BUYER_NAME"},
                 
                 {"question": "Get items with their corresponding tax code and description", 
-                "sql": "SELECT PART_NUMBER, TAX_CODE, DESCRIPTION FROM vMTL_SYSTEM_ITEMS JOIN tax_codes ON vMTL_SYSTEM_ITEMS.TAX_CODE = tax_codes.TAX_CODE_ID"},
+                "sql": "SELECT PART_NUMBER, TAX_CODE, DESCRIPTION FROM ENTERPRISE_INVENTORY JOIN tax_codes ON ENTERPRISE_INVENTORY.TAX_CODE = tax_codes.TAX_CODE_ID"},
                 
                 {"question": "Find all items with a quantity on hand less than 10 and from a specific catalog", 
-                "sql": "SELECT vMTL_SYSTEM_ITEMS.PART_NUMBER, vMTL_SYSTEM_ITEMS.DESCRIPTION, inventory_levels.STOCK_LEVEL FROM vMTL_SYSTEM_ITEMS JOIN inventory_levels ON vMTL_SYSTEM_ITEMS.INVENTORY_ITEM_ID = inventory_levels.INVENTORY_ITEM_ID JOIN item_catalog ON vMTL_SYSTEM_ITEMS.ITEM_CATALOG_GROUP_ID = item_catalog.CATALOG_GROUP_ID WHERE inventory_levels.STOCK_LEVEL < 10 AND item_catalog.CATALOG_NAME = 'CatalogA'"},
+                "sql": "SELECT ENTERPRISE_INVENTORY.PART_NUMBER, ENTERPRISE_INVENTORY.DESCRIPTION, inventory_levels.STOCK_LEVEL FROM ENTERPRISE_INVENTORY JOIN inventory_levels ON ENTERPRISE_INVENTORY.INVENTORY_ITEM_ID = inventory_levels.INVENTORY_ITEM_ID JOIN item_catalog ON ENTERPRISE_INVENTORY.ITEM_CATALOG_GROUP_ID = item_catalog.CATALOG_GROUP_ID WHERE inventory_levels.STOCK_LEVEL < 10 AND item_catalog.CATALOG_NAME = 'CatalogA'"},
                 
                 {"question": "Show all items with their respective minimum and maximum order quantities", 
-                "sql": "SELECT PART_NUMBER, MINIMUM_ORDER_QUANTITY, MAXIMUM_ORDER_QUANTITY FROM vMTL_SYSTEM_ITEMS"},
+                "sql": "SELECT PART_NUMBER, MINIMUM_ORDER_QUANTITY, MAXIMUM_ORDER_QUANTITY FROM ENTERPRISE_INVENTORY"},
                 
                 {"question": "Get all items where the cost of sales account matches the expense account", 
-                "sql": "SELECT PART_NUMBER, DESCRIPTION, COST_OF_SALES_ACCOUNT, EXPENSE_ACCOUNT FROM vMTL_SYSTEM_ITEMS WHERE COST_OF_SALES_ACCOUNT = EXPENSE_ACCOUNT"},
+                "sql": "SELECT PART_NUMBER, DESCRIPTION, COST_OF_SALES_ACCOUNT, EXPENSE_ACCOUNT FROM ENTERPRISE_INVENTORY WHERE COST_OF_SALES_ACCOUNT = EXPENSE_ACCOUNT"},
                 
                 {"question": "List all items that have a predefined serial number and are active", 
-                "sql": "SELECT PART_NUMBER, DESCRIPTION, SERIAL_NUMBER_CONTROL_CODE FROM vMTL_SYSTEM_ITEMS WHERE SERIAL_NUMBER_CONTROL_CODE IS NOT NULL AND INVENTORY_ITEM_STATUS_CODE = 'ACTIVE'"},
+                "sql": "SELECT PART_NUMBER, DESCRIPTION, SERIAL_NUMBER_CONTROL_CODE FROM ENTERPRISE_INVENTORY WHERE SERIAL_NUMBER_CONTROL_CODE IS NOT NULL AND INVENTORY_ITEM_STATUS_CODE = 'ACTIVE'"},
                 
                 {"question": "Show items that are marked for preventive maintenance", 
-                "sql": "SELECT PART_NUMBER, DESCRIPTION FROM vMTL_SYSTEM_ITEMS WHERE PREVENTIVE_MAINTENANCE_FLAG = 'Y'"},
+                "sql": "SELECT PART_NUMBER, DESCRIPTION FROM ENTERPRISE_INVENTORY WHERE PREVENTIVE_MAINTENANCE_FLAG = 'Y'"},
                 
                 {"question": "Get all items with their environmental compliance status", 
-                "sql": "SELECT PART_NUMBER, DESCRIPTION, ENVIRONMENTAL_COMPLIANCE_STATUS FROM vMTL_SYSTEM_ITEMS"},
+                "sql": "SELECT PART_NUMBER, DESCRIPTION, ENVIRONMENTAL_COMPLIANCE_STATUS FROM ENTERPRISE_INVENTORY"},
                 
                 {"question": "List all items with their pricing and vendor warranty details", 
-                "sql": "SELECT PART_NUMBER, LIST_PRICE_PER_UNIT, WARRANTY_VENDOR_ID, WARRANTY_VENDOR_NAME FROM vMTL_SYSTEM_ITEMS JOIN warranty_vendors ON vMTL_SYSTEM_ITEMS.WARRANTY_VENDOR_ID = warranty_vendors.VENDOR_ID"},
+                "sql": "SELECT PART_NUMBER, LIST_PRICE_PER_UNIT, WARRANTY_VENDOR_ID, WARRANTY_VENDOR_NAME FROM ENTERPRISE_INVENTORY JOIN warranty_vendors ON ENTERPRISE_INVENTORY.WARRANTY_VENDOR_ID = warranty_vendors.VENDOR_ID"},
                 
                 {"question": "Get all items, their descriptions, and their corresponding lead times from the inventory", 
-                "sql": "SELECT vMTL_SYSTEM_ITEMS.PART_NUMBER, vMTL_SYSTEM_ITEMS.DESCRIPTION, vMTL_SYSTEM_ITEMS.FULL_LEAD_TIME FROM vMTL_SYSTEM_ITEMS"},
+                "sql": "SELECT ENTERPRISE_INVENTORY.PART_NUMBER, ENTERPRISE_INVENTORY.DESCRIPTION, ENTERPRISE_INVENTORY.FULL_LEAD_TIME FROM ENTERPRISE_INVENTORY"},
                 
                 {"question": "Show all items, their associated tax codes, and their corresponding sales account", 
-                "sql": "SELECT vMTL_SYSTEM_ITEMS.PART_NUMBER, vMTL_SYSTEM_ITEMS.DESCRIPTION, vMTL_SYSTEM_ITEMS.TAX_CODE, vMTL_SYSTEM_ITEMS.SALES_ACCOUNT FROM vMTL_SYSTEM_ITEMS"},
+                "sql": "SELECT ENTERPRISE_INVENTORY.PART_NUMBER, ENTERPRISE_INVENTORY.DESCRIPTION, ENTERPRISE_INVENTORY.TAX_CODE, ENTERPRISE_INVENTORY.SALES_ACCOUNT FROM ENTERPRISE_INVENTORY"},
                 
                 {"question": "List all items and their total order quantities per organization", 
-                "sql": "SELECT ORGANIZATION_ID, PART_NUMBER, SUM(ORDER_QUANTITY) AS TOTAL_ORDER_QUANTITY FROM vMTL_SYSTEM_ITEMS JOIN orders ON vMTL_SYSTEM_ITEMS.INVENTORY_ITEM_ID = orders.INVENTORY_ITEM_ID GROUP BY ORGANIZATION_ID, PART_NUMBER"},
+                "sql": "SELECT ORGANIZATION_ID, PART_NUMBER, SUM(ORDER_QUANTITY) AS TOTAL_ORDER_QUANTITY FROM ENTERPRISE_INVENTORY JOIN orders ON ENTERPRISE_INVENTORY.INVENTORY_ITEM_ID = orders.INVENTORY_ITEM_ID GROUP BY ORGANIZATION_ID, PART_NUMBER"},
                 
                 {"question": "Show all items with their current inventory status and orderable status", 
-                "sql": "SELECT PART_NUMBER, INVENTORY_ITEM_STATUS_CODE, ORDERABLE_ON_WEB_FLAG FROM vMTL_SYSTEM_ITEMS WHERE ORDERABLE_ON_WEB_FLAG = 'Y'"},
+                "sql": "SELECT PART_NUMBER, INVENTORY_ITEM_STATUS_CODE, ORDERABLE_ON_WEB_FLAG FROM ENTERPRISE_INVENTORY WHERE ORDERABLE_ON_WEB_FLAG = 'Y'"},
                 
                 {"question": "Get the items with the highest and lowest prices, along with their descriptions", 
-                "sql": "SELECT PART_NUMBER, DESCRIPTION, LIST_PRICE_PER_UNIT FROM vMTL_SYSTEM_ITEMS WHERE LIST_PRICE_PER_UNIT = (SELECT MAX(LIST_PRICE_PER_UNIT) FROM vMTL_SYSTEM_ITEMS) OR LIST_PRICE_PER_UNIT = (SELECT MIN(LIST_PRICE_PER_UNIT) FROM vMTL_SYSTEM_ITEMS)"},
+                "sql": "SELECT PART_NUMBER, DESCRIPTION, LIST_PRICE_PER_UNIT FROM ENTERPRISE_INVENTORY WHERE LIST_PRICE_PER_UNIT = (SELECT MAX(LIST_PRICE_PER_UNIT) FROM ENTERPRISE_INVENTORY) OR LIST_PRICE_PER_UNIT = (SELECT MIN(LIST_PRICE_PER_UNIT) FROM ENTERPRISE_INVENTORY)"},
                 
                 {"question": "Find all items from a specific buyer with their current inventory levels and supplier names", 
-                "sql": "SELECT vMTL_SYSTEM_ITEMS.PART_NUMBER, vMTL_SYSTEM_ITEMS.DESCRIPTION, inventory_levels.STOCK_LEVEL, suppliers.SUPPLIER_NAME FROM vMTL_SYSTEM_ITEMS JOIN inventory_levels ON vMTL_SYSTEM_ITEMS.INVENTORY_ITEM_ID = inventory_levels.INVENTORY_ITEM_ID JOIN suppliers ON vMTL_SYSTEM_ITEMS.SUPPLIER = suppliers.SUPPLIER_ID WHERE vMTL_SYSTEM_ITEMS.BUYER_NAME = 'John Doe'"},
+                "sql": "SELECT ENTERPRISE_INVENTORY.PART_NUMBER, ENTERPRISE_INVENTORY.DESCRIPTION, inventory_levels.STOCK_LEVEL, suppliers.SUPPLIER_NAME FROM ENTERPRISE_INVENTORY JOIN inventory_levels ON ENTERPRISE_INVENTORY.INVENTORY_ITEM_ID = inventory_levels.INVENTORY_ITEM_ID JOIN suppliers ON ENTERPRISE_INVENTORY.SUPPLIER = suppliers.SUPPLIER_ID WHERE ENTERPRISE_INVENTORY.BUYER_NAME = 'John Doe'"},
                 
                 {"question": "Get all items from a certain organization that are currently backordered", 
-                "sql": "SELECT PART_NUMBER, DESCRIPTION, BACK_ORDERABLE_FLAG FROM vMTL_SYSTEM_ITEMS WHERE ORGANIZATION_ID = 'OrgA' AND BACK_ORDERABLE_FLAG = 'Y'"},
+                "sql": "SELECT PART_NUMBER, DESCRIPTION, BACK_ORDERABLE_FLAG FROM ENTERPRISE_INVENTORY WHERE ORGANIZATION_ID = 'OrgA' AND BACK_ORDERABLE_FLAG = 'Y'"},
                 
                 {"question": "Show all items with their associated fixed order quantity and maximum order quantity", 
-                "sql": "SELECT PART_NUMBER, FIXED_ORDER_QUANTITY, MAXIMUM_ORDER_QUANTITY FROM vMTL_SYSTEM_ITEMS WHERE FIXED_ORDER_QUANTITY IS NOT NULL AND MAXIMUM_ORDER_QUANTITY IS NOT NULL"},
+                "sql": "SELECT PART_NUMBER, FIXED_ORDER_QUANTITY, MAXIMUM_ORDER_QUANTITY FROM ENTERPRISE_INVENTORY WHERE FIXED_ORDER_QUANTITY IS NOT NULL AND MAXIMUM_ORDER_QUANTITY IS NOT NULL"},
                 
                 {"question": "Get the list of items that are marked for environmental compliance and their safety stock bucket days", 
-                "sql": "SELECT PART_NUMBER, ENVIRONMENTAL_COMPLIANCE_STATUS, SAFETY_STOCK_BUCKET_DAYS FROM vMTL_SYSTEM_ITEMS WHERE ENVIRONMENTAL_COMPLIANCE_STATUS = 'Compliant'"},
+                "sql": "SELECT PART_NUMBER, ENVIRONMENTAL_COMPLIANCE_STATUS, SAFETY_STOCK_BUCKET_DAYS FROM ENTERPRISE_INVENTORY WHERE ENVIRONMENTAL_COMPLIANCE_STATUS = 'Compliant'"},
                 
                 {"question": "Find all items and their corresponding inventory planning codes and descriptions", 
-                "sql": "SELECT PART_NUMBER, INVENTORY_PLANNING_CODE, INVENTORY_PLANNING_CODE_NAME FROM vMTL_SYSTEM_ITEMS"},
+                "sql": "SELECT PART_NUMBER, INVENTORY_PLANNING_CODE, INVENTORY_PLANNING_CODE_NAME FROM ENTERPRISE_INVENTORY"},
                 
                 {"question": "Show the total count of items ordered by each vendor along with the total cost of orders", 
-                "sql": "SELECT suppliers.SUPPLIER_NAME, COUNT(vMTL_SYSTEM_ITEMS.PART_NUMBER) AS ITEM_COUNT, SUM(vMTL_SYSTEM_ITEMS.LIST_PRICE_PER_UNIT) AS TOTAL_COST FROM vMTL_SYSTEM_ITEMS JOIN suppliers ON vMTL_SYSTEM_ITEMS.SUPPLIER = suppliers.SUPPLIER_ID GROUP BY suppliers.SUPPLIER_NAME"},
+                "sql": "SELECT suppliers.SUPPLIER_NAME, COUNT(ENTERPRISE_INVENTORY.PART_NUMBER) AS ITEM_COUNT, SUM(ENTERPRISE_INVENTORY.LIST_PRICE_PER_UNIT) AS TOTAL_COST FROM ENTERPRISE_INVENTORY JOIN suppliers ON ENTERPRISE_INVENTORY.SUPPLIER = suppliers.SUPPLIER_ID GROUP BY suppliers.SUPPLIER_NAME"},
                 
                 {"question": "Get all items where the order quantity exceeds a specific threshold and show their planning time fence", 
-                "sql": "SELECT PART_NUMBER, ORDER_QUANTITY, PLANNING_TIME_FENCE_DAYS FROM vMTL_SYSTEM_ITEMS WHERE ORDER_QUANTITY > 100 AND PLANNING_TIME_FENCE_DAYS > 30"},
+                "sql": "SELECT PART_NUMBER, ORDER_QUANTITY, PLANNING_TIME_FENCE_DAYS FROM ENTERPRISE_INVENTORY WHERE ORDER_QUANTITY > 100 AND PLANNING_TIME_FENCE_DAYS > 30"},
                 
                 {"question": "Find items that have been ordered with a price higher than their defined maximum price", 
-                "sql": "SELECT PART_NUMBER, ORDER_QUANTITY, LIST_PRICE_PER_UNIT FROM vMTL_SYSTEM_ITEMS WHERE ORDER_QUANTITY > 0 AND LIST_PRICE_PER_UNIT > MAXIMUM_ORDER_QUANTITY"},
+                "sql": "SELECT PART_NUMBER, ORDER_QUANTITY, LIST_PRICE_PER_UNIT FROM ENTERPRISE_INVENTORY WHERE ORDER_QUANTITY > 0 AND LIST_PRICE_PER_UNIT > MAXIMUM_ORDER_QUANTITY"},
                 
                 {"question": "Get all items from a particular catalog and show their buyer's name, price, and planning make-buy code", 
-                "sql": "SELECT vMTL_SYSTEM_ITEMS.PART_NUMBER, vMTL_SYSTEM_ITEMS.DESCRIPTION, vMTL_SYSTEM_ITEMS.BUYER_NAME, vMTL_SYSTEM_ITEMS.LIST_PRICE_PER_UNIT, vMTL_SYSTEM_ITEMS.PLANNING_MAKE_BUY_CODE_NAME FROM vMTL_SYSTEM_ITEMS JOIN item_catalog ON vMTL_SYSTEM_ITEMS.ITEM_CATALOG_GROUP_ID = item_catalog.CATALOG_GROUP_ID WHERE item_catalog.CATALOG_NAME = 'CatalogA'"},
+                "sql": "SELECT ENTERPRISE_INVENTORY.PART_NUMBER, ENTERPRISE_INVENTORY.DESCRIPTION, ENTERPRISE_INVENTORY.BUYER_NAME, ENTERPRISE_INVENTORY.LIST_PRICE_PER_UNIT, ENTERPRISE_INVENTORY.PLANNING_MAKE_BUY_CODE_NAME FROM ENTERPRISE_INVENTORY JOIN item_catalog ON ENTERPRISE_INVENTORY.ITEM_CATALOG_GROUP_ID = item_catalog.CATALOG_GROUP_ID WHERE item_catalog.CATALOG_NAME = 'CatalogA'"},
                 
                 {"question": "List all items that have a warranty expiration date and their warranty vendor details", 
-                "sql": "SELECT PART_NUMBER, WARRANTY_VENDOR_ID, WARRANTY_EXPIRATION_DATE FROM vMTL_SYSTEM_ITEMS JOIN warranty_vendors ON vMTL_SYSTEM_ITEMS.WARRANTY_VENDOR_ID = warranty_vendors.VENDOR_ID WHERE WARRANTY_EXPIRATION_DATE > '2025-01-01'"},
+                "sql": "SELECT PART_NUMBER, WARRANTY_VENDOR_ID, WARRANTY_EXPIRATION_DATE FROM ENTERPRISE_INVENTORY JOIN warranty_vendors ON ENTERPRISE_INVENTORY.WARRANTY_VENDOR_ID = warranty_vendors.VENDOR_ID WHERE WARRANTY_EXPIRATION_DATE > '2025-01-01'"},
                 
                 {"question": "Get all items with their planning time fence, orderable flag, and backorderable flag", 
-                "sql": "SELECT PART_NUMBER, PLANNING_TIME_FENCE_DAYS, ORDERABLE_ON_WEB_FLAG, BACK_ORDERABLE_FLAG FROM vMTL_SYSTEM_ITEMS WHERE ORDERABLE_ON_WEB_FLAG = 'Y' AND BACK_ORDERABLE_FLAG = 'Y'"},
+                "sql": "SELECT PART_NUMBER, PLANNING_TIME_FENCE_DAYS, ORDERABLE_ON_WEB_FLAG, BACK_ORDERABLE_FLAG FROM ENTERPRISE_INVENTORY WHERE ORDERABLE_ON_WEB_FLAG = 'Y' AND BACK_ORDERABLE_FLAG = 'Y'"},
                 
                 {"question": "Show the most expensive item from each organization and its supplier", 
-                "sql": "SELECT ORGANIZATION_ID, PART_NUMBER, SUPPLIER, MAX(LIST_PRICE_PER_UNIT) AS MAX_PRICE FROM vMTL_SYSTEM_ITEMS GROUP BY ORGANIZATION_ID, SUPPLIER"},
+                "sql": "SELECT ORGANIZATION_ID, PART_NUMBER, SUPPLIER, MAX(LIST_PRICE_PER_UNIT) AS MAX_PRICE FROM ENTERPRISE_INVENTORY GROUP BY ORGANIZATION_ID, SUPPLIER"},
                 
                 {"question": "Get the items that are flagged for inspection, along with their hazard class description", 
-                "sql": "SELECT PART_NUMBER, DESCRIPTION, HAZARD_CLASS_DESC FROM vMTL_SYSTEM_ITEMS WHERE INSPECTION_REQUIRED_FLAG = 'Y'"},
+                "sql": "SELECT PART_NUMBER, DESCRIPTION, HAZARD_CLASS_DESC FROM ENTERPRISE_INVENTORY WHERE INSPECTION_REQUIRED_FLAG = 'Y'"},
                 
                 {"question": "List all items, their corresponding cost of sales account, and the total quantity ordered", 
-                "sql": "SELECT PART_NUMBER, COST_OF_SALES_ACCOUNT, SUM(ORDER_QUANTITY) AS TOTAL_ORDERED FROM vMTL_SYSTEM_ITEMS JOIN orders ON vMTL_SYSTEM_ITEMS.INVENTORY_ITEM_ID = orders.INVENTORY_ITEM_ID GROUP BY PART_NUMBER, COST_OF_SALES_ACCOUNT"},
+                "sql": "SELECT PART_NUMBER, COST_OF_SALES_ACCOUNT, SUM(ORDER_QUANTITY) AS TOTAL_ORDERED FROM ENTERPRISE_INVENTORY JOIN orders ON ENTERPRISE_INVENTORY.INVENTORY_ITEM_ID = orders.INVENTORY_ITEM_ID GROUP BY PART_NUMBER, COST_OF_SALES_ACCOUNT"},
                 
             
                 {
                     "question": "Which parts were updated in the last 6 months?",
-                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE >= ADD_MONTHS(SYSDATE, -6)"
+                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE >= ADD_MONTHS(SYSDATE, -6)"
                 },
                 {
                     "question": "Get all items along with how many days since they were last updated",
-                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE, TRUNC(SYSDATE - LAST_UPDATE_DATE) AS DAYS_SINCE_LAST_UPDATE FROM vMTL_SYSTEM_ITEMS"
+                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE, TRUNC(SYSDATE - LAST_UPDATE_DATE) AS DAYS_SINCE_LAST_UPDATE FROM ENTERPRISE_INVENTORY"
                 },
                 {
                     "question": "Show parts that were created more than 5 years ago",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE < ADD_MONTHS(SYSDATE, -60)"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE < ADD_MONTHS(SYSDATE, -60)"
                 },
                 {
                     "question": "Get the number of parts created each year",
-                    "sql": "SELECT EXTRACT(YEAR FROM CREATION_DATE) AS YEAR, COUNT(*) AS TOTAL_PARTS FROM vMTL_SYSTEM_ITEMS GROUP BY EXTRACT(YEAR FROM CREATION_DATE) ORDER BY YEAR"
+                    "sql": "SELECT EXTRACT(YEAR FROM CREATION_DATE) AS YEAR, COUNT(*) AS TOTAL_PARTS FROM ENTERPRISE_INVENTORY GROUP BY EXTRACT(YEAR FROM CREATION_DATE) ORDER BY YEAR"
                 },
                 {
                     "question": "Find all parts that were created in the same month as today",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM vMTL_SYSTEM_ITEMS WHERE EXTRACT(MONTH FROM CREATION_DATE) = EXTRACT(MONTH FROM SYSDATE)"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM ENTERPRISE_INVENTORY WHERE EXTRACT(MONTH FROM CREATION_DATE) = EXTRACT(MONTH FROM SYSDATE)"
                 },
                 {
                     "question": "List all suppliers and the most recent part they supplied",
-                    "sql": "SELECT SUPPLIER, MAX(CREATION_DATE) AS MOST_RECENT_PART_DATE FROM vMTL_SYSTEM_ITEMS GROUP BY SUPPLIER"
+                    "sql": "SELECT SUPPLIER, MAX(CREATION_DATE) AS MOST_RECENT_PART_DATE FROM ENTERPRISE_INVENTORY GROUP BY SUPPLIER"
                 },
                 
                 {
                     "question": "Show all parts created in the last 30 days",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= TRUNC(SYSDATE - 30)"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= TRUNC(SYSDATE - 30)"
                 },
                 {
                     "question": "Show all parts created in 2024",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31'"
                 },
                 {
                     "question": "List part numbers added in 2023",
-                    "sql": "SELECT PART_NUMBER FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2023-01-01' AND CREATION_DATE <= '2023-12-31'"
+                    "sql": "SELECT PART_NUMBER FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2023-01-01' AND CREATION_DATE <= '2023-12-31'"
                 },
                 {
                     "question": "Get items last updated in 2022",
-                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE >= '2022-01-01' AND LAST_UPDATE_DATE <= '2022-12-31'"
+                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE >= '2022-01-01' AND LAST_UPDATE_DATE <= '2022-12-31'"
                 },
                 {
                     "question": "Find all items created in December 2024",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2024-12-01' AND CREATION_DATE <= '2024-12-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2024-12-01' AND CREATION_DATE <= '2024-12-31'"
                 },
                 {
                     "question": "Which parts were updated in Q1 2023?",
-                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE >= '2023-01-01' AND LAST_UPDATE_DATE <= '2023-03-31'"
+                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE >= '2023-01-01' AND LAST_UPDATE_DATE <= '2023-03-31'"
                 },
                 {
                     "question": "Get all parts ordered in 2021",
-                    "sql": "SELECT PART_NUMBER, ATTRIBUTE11 FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2021-01-01' AND CREATION_DATE <= '2021-12-31'"
+                    "sql": "SELECT PART_NUMBER, ATTRIBUTE11 FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2021-01-01' AND CREATION_DATE <= '2021-12-31'"
                 },
                 {
                     "question": "List parts modified in 2020",
-                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE >= '2020-01-01' AND LAST_UPDATE_DATE <= '2020-12-31'"
+                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE >= '2020-01-01' AND LAST_UPDATE_DATE <= '2020-12-31'"
                 },
                 {
                     "question": "Show everything created in the year 2019",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2019-01-01' AND CREATION_DATE <= '2019-12-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2019-01-01' AND CREATION_DATE <= '2019-12-31'"
                 },
                 {
                     "question": "How many parts were added in 2024?",
-                    "sql": "SELECT COUNT(*) AS TOTAL_PARTS_2024 FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31'"
+                    "sql": "SELECT COUNT(*) AS TOTAL_PARTS_2024 FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31'"
                 },
                 {
                     "question": "Get all parts added in the same year as part 12345",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE EXTRACT(YEAR FROM CREATION_DATE) = (SELECT EXTRACT(YEAR FROM CREATION_DATE) FROM vMTL_SYSTEM_ITEMS WHERE PART_NUMBER = '12345')"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE EXTRACT(YEAR FROM CREATION_DATE) = (SELECT EXTRACT(YEAR FROM CREATION_DATE) FROM ENTERPRISE_INVENTORY WHERE PART_NUMBER = '12345')"
                 },
                 {
                     "question": "Give me all part numbers created by ER code XYZ789",
-                    "sql": "SELECT PART_NUMBER FROM vMTL_SYSTEM_ITEMS WHERE ORGANIZATION_CODE = 'XYZ789'"
+                    "sql": "SELECT PART_NUMBER FROM ENTERPRISE_INVENTORY WHERE ORGANIZATION_CODE = 'XYZ789'"
                 },
                 {
                     "question": "Hey, can you show me a list of all the parts we have?",
-                    "sql": "SELECT ORGANIZATION_ID, ORGANIZATION_CODE, INVENTORY_ITEM_ID, PART_NUMBER, DESCRIPTION, ITEM_TYPE, ITEM_TYPE_NAME, INVENTORY_ITEM_STATUS_CODE, PLANNER_CODE, PLANNER_NAME, BUYER_NAME, PLANNING_MAKE_BUY_CODE_NAME FROM vMTL_SYSTEM_ITEMS"
+                    "sql": "SELECT ORGANIZATION_ID, ORGANIZATION_CODE, INVENTORY_ITEM_ID, PART_NUMBER, DESCRIPTION, ITEM_TYPE, ITEM_TYPE_NAME, INVENTORY_ITEM_STATUS_CODE, PLANNER_CODE, PLANNER_NAME, BUYER_NAME, PLANNING_MAKE_BUY_CODE_NAME FROM ENTERPRISE_INVENTORY"
                 },
                 {
                     "question": "I need to see just the part numbers, nothing else.",
-                    "sql": "SELECT PART_NUMBER FROM vMTL_SYSTEM_ITEMS"
+                    "sql": "SELECT PART_NUMBER FROM ENTERPRISE_INVENTORY"
                 },
                 {
                     "question": "I'm looking for any parts that have XYZ789 as their ER code.",
-                    "sql": "SELECT PART_NUMBER, ORGANIZATION_ID, INVENTORY_ITEM_ID, DESCRIPTION FROM vMTL_SYSTEM_ITEMS WHERE ORGANIZATION_CODE = 'XYZ789'"
+                    "sql": "SELECT PART_NUMBER, ORGANIZATION_ID, INVENTORY_ITEM_ID, DESCRIPTION FROM ENTERPRISE_INVENTORY WHERE ORGANIZATION_CODE = 'XYZ789'"
                 },
                 {
                     "question": "Get all items with their planning time fence, orderable flag, and backorderable flag",
-                    "sql": "SELECT PART_NUMBER, PLANNING_TIME_FENCE_CODE, ORDERABLE_ON_WEB_FLAG, BACK_ORDERABLE_FLAG FROM vMTL_SYSTEM_ITEMS"
+                    "sql": "SELECT PART_NUMBER, PLANNING_TIME_FENCE_CODE, ORDERABLE_ON_WEB_FLAG, BACK_ORDERABLE_FLAG FROM ENTERPRISE_INVENTORY"
                 },
                 {
                     "question": "Get all items where the cost of sales account matches the expense account",
-                    "sql": "SELECT PART_NUMBER, COST_OF_SALES_ACCOUNT, EXPENSE_ACCOUNT FROM vMTL_SYSTEM_ITEMS WHERE COST_OF_SALES_ACCOUNT = EXPENSE_ACCOUNT"
+                    "sql": "SELECT PART_NUMBER, COST_OF_SALES_ACCOUNT, EXPENSE_ACCOUNT FROM ENTERPRISE_INVENTORY WHERE COST_OF_SALES_ACCOUNT = EXPENSE_ACCOUNT"
                 },
                 {
                     "question": "List all items that have been recently updated and their corresponding inventory status",
-                    "sql": "SELECT PART_NUMBER, INVENTORY_ITEM_STATUS_CODE, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS ORDER BY LAST_UPDATE_DATE DESC"
+                    "sql": "SELECT PART_NUMBER, INVENTORY_ITEM_STATUS_CODE, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY ORDER BY LAST_UPDATE_DATE DESC"
                 },
                 {
                     "question": "Get items with their corresponding tax code and description",
-                    "sql": "SELECT PART_NUMBER, TAX_CODE, DESCRIPTION FROM vMTL_SYSTEM_ITEMS"
+                    "sql": "SELECT PART_NUMBER, TAX_CODE, DESCRIPTION FROM ENTERPRISE_INVENTORY"
                 },
                 {
                     "question": "Get all items from a certain organization that are currently backordered",
-                    "sql": "SELECT PART_NUMBER, ORGANIZATION_ID, BACK_ORDERABLE_FLAG FROM vMTL_SYSTEM_ITEMS WHERE BACK_ORDERABLE_FLAG = 'Y'"
+                    "sql": "SELECT PART_NUMBER, ORGANIZATION_ID, BACK_ORDERABLE_FLAG FROM ENTERPRISE_INVENTORY WHERE BACK_ORDERABLE_FLAG = 'Y'"
                 },
                 {
                     "question": "Get the items with the highest and lowest prices, along with their descriptions",
-                    "sql": "SELECT PART_NUMBER, DESCRIPTION, ACTUAL_PRICE FROM vMTL_SYSTEM_ITEMS WHERE ACTUAL_PRICE = (SELECT MAX(ACTUAL_PRICE) FROM vMTL_SYSTEM_ITEMS) OR ACTUAL_PRICE = (SELECT MIN(ACTUAL_PRICE) FROM vMTL_SYSTEM_ITEMS)"
+                    "sql": "SELECT PART_NUMBER, DESCRIPTION, ACTUAL_PRICE FROM ENTERPRISE_INVENTORY WHERE ACTUAL_PRICE = (SELECT MAX(ACTUAL_PRICE) FROM ENTERPRISE_INVENTORY) OR ACTUAL_PRICE = (SELECT MIN(ACTUAL_PRICE) FROM ENTERPRISE_INVENTORY)"
                 },
                 {
                     "question": "Which items have not been updated since 2018?",
-                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE < TO_DATE('2019-01-01', 'YYYY-MM-DD')"
+                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE < TO_DATE('2019-01-01', 'YYYY-MM-DD')"
                 },
                 {
                     "question": "Get the items that are flagged for inspection, along with their hazard class description",
-                    "sql": "SELECT PART_NUMBER, INSPECTION_REQUIRED_FLAG, HAZARD_CLASS_DESCRIPTION FROM vMTL_SYSTEM_ITEMS WHERE INSPECTION_REQUIRED_FLAG = 'Y'"
+                    "sql": "SELECT PART_NUMBER, INSPECTION_REQUIRED_FLAG, HAZARD_CLASS_DESCRIPTION FROM ENTERPRISE_INVENTORY WHERE INSPECTION_REQUIRED_FLAG = 'Y'"
                 },
                 {
                     "question": "Get all items, their descriptions, and their corresponding lead times from the inventory",
-                    "sql": "SELECT PART_NUMBER, DESCRIPTION, CUM_MANUFACTURING_LEAD_TIME FROM vMTL_SYSTEM_ITEMS"
+                    "sql": "SELECT PART_NUMBER, DESCRIPTION, CUM_MANUFACTURING_LEAD_TIME FROM ENTERPRISE_INVENTORY"
                 },
                  {
                     "question": "Get all items created after January 1, 2020",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE > '2020-01-01'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE > '2020-01-01'"
                 },
                 {
                     "question": "List all items added in the year 2021",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE EXTRACT(YEAR FROM CREATION_DATE) = 2021"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE EXTRACT(YEAR FROM CREATION_DATE) = 2021"
                 },
                 {
                     "question": "Show me all items created before March 15, 2022",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE < '2022-03-15'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE < '2022-03-15'"
                 },
                 {
                     "question": "Find all items created between January 1, 2021 and December 31, 2021",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE BETWEEN '2021-01-01' AND '2021-12-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE BETWEEN '2021-01-01' AND '2021-12-31'"
                 },
                 {
                     "question": "Get all items that were created in February 2022",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE EXTRACT(MONTH FROM CREATION_DATE) = 2 AND EXTRACT(YEAR FROM CREATION_DATE) = 2022"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE EXTRACT(MONTH FROM CREATION_DATE) = 2 AND EXTRACT(YEAR FROM CREATION_DATE) = 2022"
                 },
                 {
                     "question": "List all items created on or after February 1, 2021",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2021-02-01'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2021-02-01'"
                 },
                 {
                     "question": "Show all items created in the last 30 days",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= CURRENT_DATE - INTERVAL '30 days'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= CURRENT_DATE - INTERVAL '30 days'"
                 },
                 {
                     "question": "Get all items created in the first quarter of 2022",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2022-01-01' AND CREATION_DATE < '2022-04-01'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2022-01-01' AND CREATION_DATE < '2022-04-01'"
                 },
                 {
                     "question": "Find all items created on February 29, 2020",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE = '2020-02-29'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE = '2020-02-29'"
                 },
                 {
                     "question": "List all items created in the summer of 2021",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2021-06-01' AND CREATION_DATE < '2021-09-01'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2021-06-01' AND CREATION_DATE < '2021-09-01'"
                 },
                 {
                     "question": "Get all items created in the last year",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= CURRENT_DATE - INTERVAL '1 year'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= CURRENT_DATE - INTERVAL '1 year'"
                 },
                 {
                     "question": "Show me items created on the last day of 2021",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE = '2021-12-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE = '2021-12-31'"
                 },
                 {
                     "question": "Find all items created in the month of January 2022",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE EXTRACT(MONTH FROM CREATION_DATE) = 1 AND EXTRACT(YEAR FROM CREATION_DATE) = 2022"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE EXTRACT(MONTH FROM CREATION_DATE) = 1 AND EXTRACT(YEAR FROM CREATION_DATE) = 2022"
                 },
                 {
                     "question": "Get all items created after the last quarter of 2021",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE > '2021-12-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE > '2021-12-31'"
                 },
                 {
                     "question":"​Please help to pull all the PTO model for ER R1 for all statuses. Thanks.",
-                    "sql": "select ER_code,PART_NUMBER, ITEM_TYPE_NAME,INVENTORY_ITEM_STATUS_CODE from vMTL_SYSTEM_ITEMS where ER_CODE='R1' and ITEM_TYPE_NAME = 'PTO Model'"
+                    "sql": "select ER_code,PART_NUMBER, ITEM_TYPE_NAME,INVENTORY_ITEM_STATUS_CODE from ENTERPRISE_INVENTORY where ER_CODE='R1' and ITEM_TYPE_NAME = 'PTO Model'"
                 },
                 {
                     "question": "Find all items where the make or buy code is set to Make",
-                    "sql": "SELECT PART_NUMBER, PLANNING_MAKE_BUY_CODE_NAME FROM vMTL_SYSTEM_ITEMS WHERE PLANNING_MAKE_BUY_CODE_NAME = 'Make'"
+                    "sql": "SELECT PART_NUMBER, PLANNING_MAKE_BUY_CODE_NAME FROM ENTERPRISE_INVENTORY WHERE PLANNING_MAKE_BUY_CODE_NAME = 'Make'"
                 },
                 {
                     "question": "Show me all items that have no supplier listed",
-                    "sql": "SELECT PART_NUMBER, SUPPLIER FROM vMTL_SYSTEM_ITEMS WHERE SUPPLIER IS NULL"
+                    "sql": "SELECT PART_NUMBER, SUPPLIER FROM ENTERPRISE_INVENTORY WHERE SUPPLIER IS NULL"
                 },
                 {
                     "question": "Which items have a description that contains the word 'bolt'?",
-                    "sql": "SELECT PART_NUMBER, DESCRIPTION FROM vMTL_SYSTEM_ITEMS WHERE LOWER(DESCRIPTION) LIKE '%bolt%'"
+                    "sql": "SELECT PART_NUMBER, DESCRIPTION FROM ENTERPRISE_INVENTORY WHERE LOWER(DESCRIPTION) LIKE '%bolt%'"
                 },
                 {
                     "question": "List the top 10 most recently created items",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM vMTL_SYSTEM_ITEMS ORDER BY CREATION_DATE DESC FETCH FIRST 10 ROWS ONLY"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM ENTERPRISE_INVENTORY ORDER BY CREATION_DATE DESC FETCH FIRST 10 ROWS ONLY"
                 },
                 {
                     "question": "Get all items where the category is Mechanical",
-                    "sql": "SELECT PART_NUMBER, MAIN_CATEGORY FROM vMTL_SYSTEM_ITEMS WHERE MAIN_CATEGORY = 'Mechanical'"
+                    "sql": "SELECT PART_NUMBER, MAIN_CATEGORY FROM ENTERPRISE_INVENTORY WHERE MAIN_CATEGORY = 'Mechanical'"
                 },
                 {
                     "question": "Find items with a lead time greater than 30 days",
-                    "sql": "SELECT PART_NUMBER, CUM_MANUFACTURING_LEAD_TIME FROM vMTL_SYSTEM_ITEMS WHERE CUM_MANUFACTURING_LEAD_TIME > 30"
+                    "sql": "SELECT PART_NUMBER, CUM_MANUFACTURING_LEAD_TIME FROM ENTERPRISE_INVENTORY WHERE CUM_MANUFACTURING_LEAD_TIME > 30"
                 },
                 {
                     "question": "Show me all active items from organization 202",
-                    "sql": "SELECT PART_NUMBER, ORGANIZATION_ID, INVENTORY_ITEM_STATUS_CODE FROM vMTL_SYSTEM_ITEMS WHERE ORGANIZATION_ID = 202 AND INVENTORY_ITEM_STATUS_CODE = 'Active'"
+                    "sql": "SELECT PART_NUMBER, ORGANIZATION_ID, INVENTORY_ITEM_STATUS_CODE FROM ENTERPRISE_INVENTORY WHERE ORGANIZATION_ID = 202 AND INVENTORY_ITEM_STATUS_CODE = 'Active'"
                 },
                 {
                     "question": "Find all items that are returnable and trackable",
-                    "sql": "SELECT PART_NUMBER, RETURNABLE_FLAG, TRACKING_QUANTITY_IND FROM vMTL_SYSTEM_ITEMS WHERE RETURNABLE_FLAG = 'Y' AND TRACKING_QUANTITY_IND = 'Y'"
+                    "sql": "SELECT PART_NUMBER, RETURNABLE_FLAG, TRACKING_QUANTITY_IND FROM ENTERPRISE_INVENTORY WHERE RETURNABLE_FLAG = 'Y' AND TRACKING_QUANTITY_IND = 'Y'"
                 },
                 {
                     "question": "List all unique suppliers",
-                    "sql": "SELECT DISTINCT SUPPLIER FROM vMTL_SYSTEM_ITEMS WHERE SUPPLIER IS NOT NULL"
+                    "sql": "SELECT DISTINCT SUPPLIER FROM ENTERPRISE_INVENTORY WHERE SUPPLIER IS NOT NULL"
                 },
             
                 {
                     "question": "Find items where the inventory item type is 'Finished Good'",
-                    "sql": "SELECT PART_NUMBER, ITEM_TYPE_NAME FROM vMTL_SYSTEM_ITEMS WHERE ITEM_TYPE_NAME = 'Finished Good'"
+                    "sql": "SELECT PART_NUMBER, ITEM_TYPE_NAME FROM ENTERPRISE_INVENTORY WHERE ITEM_TYPE_NAME = 'Finished Good'"
                 },
                 {
                     "question": "Show items where the serial generation flag is not enabled",
-                    "sql": "SELECT PART_NUMBER, SERIAL_NUMBER_GENERATION_FLAG FROM vMTL_SYSTEM_ITEMS WHERE SERIAL_NUMBER_GENERATION_FLAG = 'N'"
+                    "sql": "SELECT PART_NUMBER, SERIAL_NUMBER_GENERATION_FLAG FROM ENTERPRISE_INVENTORY WHERE SERIAL_NUMBER_GENERATION_FLAG = 'N'"
                 },
                 {
                     "question": "List the items with a planner name starting with 'Ali'",
-                    "sql": "SELECT PART_NUMBER, PLANNER_NAME FROM vMTL_SYSTEM_ITEMS WHERE PLANNER_NAME LIKE 'Ali%'"
+                    "sql": "SELECT PART_NUMBER, PLANNER_NAME FROM ENTERPRISE_INVENTORY WHERE PLANNER_NAME LIKE 'Ali%'"
                 },
                 {
                     "question": "Show me parts created before 2020 but updated after 2023",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE < TO_DATE('2020-01-01', 'YYYY-MM-DD') AND LAST_UPDATE_DATE > TO_DATE('2023-01-01', 'YYYY-MM-DD')"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE < TO_DATE('2020-01-01', 'YYYY-MM-DD') AND LAST_UPDATE_DATE > TO_DATE('2023-01-01', 'YYYY-MM-DD')"
                 },
                 {
                     "question": "Give me a count of all parts per organization",
-                    "sql": "SELECT ORGANIZATION_ID, COUNT(*) AS PART_COUNT FROM vMTL_SYSTEM_ITEMS GROUP BY ORGANIZATION_ID"
+                    "sql": "SELECT ORGANIZATION_ID, COUNT(*) AS PART_COUNT FROM ENTERPRISE_INVENTORY GROUP BY ORGANIZATION_ID"
                 },
                 {
                     "question": "Get all items with both tax code and list price available",
-                    "sql": "SELECT PART_NUMBER, TAX_CODE, LIST_PRICE FROM vMTL_SYSTEM_ITEMS WHERE TAX_CODE IS NOT NULL AND LIST_PRICE IS NOT NULL"
+                    "sql": "SELECT PART_NUMBER, TAX_CODE, LIST_PRICE FROM ENTERPRISE_INVENTORY WHERE TAX_CODE IS NOT NULL AND LIST_PRICE IS NOT NULL"
                 },
                 {
                     "question": "Find items where the warranty classification is 'Premium'",
-                    "sql": "SELECT PART_NUMBER, WARRANTY_CLASSIFICATION FROM vMTL_SYSTEM_ITEMS WHERE WARRANTY_CLASSIFICATION = 'Premium'"
+                    "sql": "SELECT PART_NUMBER, WARRANTY_CLASSIFICATION FROM ENTERPRISE_INVENTORY WHERE WARRANTY_CLASSIFICATION = 'Premium'"
                 },
                 {
                     "question": "List all parts that are customer order enabled but not internal order enabled",
-                    "sql": "SELECT PART_NUMBER, CUSTOMER_ORDER_ENABLED_FLAG, INTERNAL_ORDER_ENABLED_FLAG FROM vMTL_SYSTEM_ITEMS WHERE CUSTOMER_ORDER_ENABLED_FLAG = 'Y' AND INTERNAL_ORDER_ENABLED_FLAG = 'N'"
+                    "sql": "SELECT PART_NUMBER, CUSTOMER_ORDER_ENABLED_FLAG, INTERNAL_ORDER_ENABLED_FLAG FROM ENTERPRISE_INVENTORY WHERE CUSTOMER_ORDER_ENABLED_FLAG = 'Y' AND INTERNAL_ORDER_ENABLED_FLAG = 'N'"
                 },
                 {
                     "question": "Find all items that have been deleted or disabled",
-                    "sql": "SELECT PART_NUMBER, INVENTORY_ITEM_STATUS_CODE FROM vMTL_SYSTEM_ITEMS WHERE INVENTORY_ITEM_STATUS_CODE IN ('Disabled', 'Deleted')"
+                    "sql": "SELECT PART_NUMBER, INVENTORY_ITEM_STATUS_CODE FROM ENTERPRISE_INVENTORY WHERE INVENTORY_ITEM_STATUS_CODE IN ('Disabled', 'Deleted')"
                 },
                 {
                     "question": "Show me all distinct item types and their names",
-                    "sql": "SELECT DISTINCT ITEM_TYPE, ITEM_TYPE_NAME FROM vMTL_SYSTEM_ITEMS"
+                    "sql": "SELECT DISTINCT ITEM_TYPE, ITEM_TYPE_NAME FROM ENTERPRISE_INVENTORY"
                 },
                 {
                     "question": "Get all items created on or after January 1st, 2024",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2024-01-01'"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2024-01-01'"
                 },
                 {
                     "question": "Find items that were updated before June 15, 2023",
-                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE < '2023-06-15'"
+                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE < '2023-06-15'"
                 },
                 {
                     "question": "Show parts created between February 1st, 2024 and March 1st, 2024",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2024-02-01' AND CREATION_DATE <= '2024-03-01'"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2024-02-01' AND CREATION_DATE <= '2024-03-01'"
                 },
                 {
                     "question": "List all items updated after December 31, 2023",
-                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE > '2023-12-31'"
+                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE > '2023-12-31'"
                 },
                 {
                     "question": "Which items were created before 2022?",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE < '2022-01-01'"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE < '2022-01-01'"
                 },
                 {
                     "question": "Find items that were both created and last updated in 2024",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31' AND LAST_UPDATE_DATE >= '2024-01-01' AND LAST_UPDATE_DATE <= '2024-12-31'"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31' AND LAST_UPDATE_DATE >= '2024-01-01' AND LAST_UPDATE_DATE <= '2024-12-31'"
                 },
                 {
                     "question": "Get parts created exactly on March 15, 2024",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE = '2024-03-15'"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE = '2024-03-15'"
                 },
                 {
                     "question": "Show me parts that were created after January 1, 2023 and not updated after January 1, 2024",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE > '2023-01-01' AND LAST_UPDATE_DATE <= '2024-01-01'"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE > '2023-01-01' AND LAST_UPDATE_DATE <= '2024-01-01'"
                 },
                 {
                     "question": "List all items that were created and updated on the same day",
-                    "sql": "SELECT PART_NUMBER, CREATION_DATE, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE = LAST_UPDATE_DATE"
+                    "sql": "SELECT PART_NUMBER, CREATION_DATE, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE = LAST_UPDATE_DATE"
                 },
                 {
                     "question": "Find items that have not been updated since 2022",
-                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE < '2023-01-01'"
+                    "sql": "SELECT PART_NUMBER, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE < '2023-01-01'"
                 },
                  {
                     "question": "Show me all items created before March 15, 2022",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE < '2022-03-15'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE < '2022-03-15'"
                 },
                 {
                     "question": "Get the items with the highest and lowest prices, along with their descriptions",
-                    "sql": "SELECT PART_NUMBER, DESCRIPTION, ACTUAL_PRICE FROM vMTL_SYSTEM_ITEMS ORDER BY ACTUAL_PRICE DESC FETCH FIRST 1 ROWS ONLY UNION ALL SELECT PART_NUMBER, DESCRIPTION, ACTUAL_PRICE FROM vMTL_SYSTEM_ITEMS ORDER BY ACTUAL_PRICE ASC FETCH FIRST 1 ROWS ONLY"
+                    "sql": "SELECT PART_NUMBER, DESCRIPTION, ACTUAL_PRICE FROM ENTERPRISE_INVENTORY ORDER BY ACTUAL_PRICE DESC FETCH FIRST 1 ROWS ONLY UNION ALL SELECT PART_NUMBER, DESCRIPTION, ACTUAL_PRICE FROM ENTERPRISE_INVENTORY ORDER BY ACTUAL_PRICE ASC FETCH FIRST 1 ROWS ONLY"
                 },
                 {
                     "question": "Show the total number of items ordered by each buyer along with their total cost",
-                    "sql": "SELECT BUYER_NAME, COUNT(*) AS TOTAL_ITEMS, SUM(ACTUAL_PRICE) AS TOTAL_COST FROM vMTL_SYSTEM_ITEMS GROUP BY BUYER_NAME"
+                    "sql": "SELECT BUYER_NAME, COUNT(*) AS TOTAL_ITEMS, SUM(ACTUAL_PRICE) AS TOTAL_COST FROM ENTERPRISE_INVENTORY GROUP BY BUYER_NAME"
                 },
                 {
                     "question": "Get all items from a particular catalog and show their buyer's name, price, and planning make-buy code",
-                    "sql": "SELECT BUYER_NAME, ACTUAL_PRICE, PLANNING_MAKE_BUY_CODE_NAME FROM vMTL_SYSTEM_ITEMS WHERE CATALOG_GROUP_ID = :catalog_id"
+                    "sql": "SELECT BUYER_NAME, ACTUAL_PRICE, PLANNING_MAKE_BUY_CODE_NAME FROM ENTERPRISE_INVENTORY WHERE CATALOG_GROUP_ID = :catalog_id"
                 },
                 {
                     "question": "Get all items created in the last year",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31'"
                 },
                 {
                     "question": "List all items updated after December 31, 2023",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE > '2023-12-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE > '2023-12-31'"
                 },
                 {
                     "question": "Get all items where the cost of sales account matches the expense account",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE COST_OF_SALES_ACCOUNT = EXPENSE_ACCOUNT"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE COST_OF_SALES_ACCOUNT = EXPENSE_ACCOUNT"
                 },
                 {
                     "question": "List all items created in the summer of 2021",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2021-06-01' AND CREATION_DATE <= '2021-08-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2021-06-01' AND CREATION_DATE <= '2021-08-31'"
                 },
                 {
                     "question": "Show me all distinct item types and their names",
-                    "sql": "SELECT DISTINCT ITEM_TYPE, ITEM_TYPE_NAME FROM vMTL_SYSTEM_ITEMS"
+                    "sql": "SELECT DISTINCT ITEM_TYPE, ITEM_TYPE_NAME FROM ENTERPRISE_INVENTORY"
                 },
                 {
                     "question": "Get all items where the category is Mechanical",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CATEGORY_NAME = 'Mechanical'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CATEGORY_NAME = 'Mechanical'"
                 },
                 {
                     "question": "Get all items created on or after January 1st, 2024",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE > '2024-01-01'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE > '2024-01-01'"
                 },
                 {
                     "question": "Get all descriptions of items",
-                    "sql": "SELECT DESCRIPTION FROM vMTL_SYSTEM_ITEMS"
+                    "sql": "SELECT DESCRIPTION FROM ENTERPRISE_INVENTORY"
                 },
                 {
                     "question": "Find items that were both created and last updated in 2024",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31'"
                 },
                 {
                     "question": "Show all parts created in 2024",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2024-01-01' AND CREATION_DATE <= '2024-12-31'"
                 },
                 {
                     "question": "Find all parts that were created in the same month as today",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2025-04-01' AND CREATION_DATE < '2025-05-01'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2025-04-01' AND CREATION_DATE < '2025-05-01'"
                 },
                   {
                     "question": "List all items with a price greater than 100",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE LIST_PRICE > 100"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE LIST_PRICE > 100"
                 },
                 {
                     "question": "Get the items with the highest inventory levels by warehouse location",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS ORDER BY INVENTORY_QUANTITY DESC"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY ORDER BY INVENTORY_QUANTITY DESC"
                 },
                 {
                     "question": "Find all parts that were created in the same month as today",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2025-04-01' AND CREATION_DATE < '2025-05-01'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2025-04-01' AND CREATION_DATE < '2025-05-01'"
                 },
                 {
                     "question": "Find all items created in the month of January 2022",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '2022-01-01' AND CREATION_DATE < '2022-02-01'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '2022-01-01' AND CREATION_DATE < '2022-02-01'"
                 },
                 {
                     "question": "List all items that have been recently updated and their corresponding inventory status",
-                    "sql": "SELECT PART_NUMBER, INVENTORY_ITEM_STATUS_CODE, LAST_UPDATE_DATE FROM vMTL_SYSTEM_ITEMS WHERE LAST_UPDATE_DATE >= '2024-12-01'"
+                    "sql": "SELECT PART_NUMBER, INVENTORY_ITEM_STATUS_CODE, LAST_UPDATE_DATE FROM ENTERPRISE_INVENTORY WHERE LAST_UPDATE_DATE >= '2024-12-01'"
                 },
                 {
                     "question": "Find all items with fixed lead time",
-                    "sql": "SELECT * FROM vMTL_SYSTEM_ITEMS WHERE FIXED_LEAD_TIME_FLAG = 'Y'"
+                    "sql": "SELECT * FROM ENTERPRISE_INVENTORY WHERE FIXED_LEAD_TIME_FLAG = 'Y'"
                 },
                 {
                     "question": "Get all items with their planning time fence, orderable flag, and backorderable flag",
-                    "sql": "SELECT PART_NUMBER, PLANNING_TIME_FENCE_CODE, ORDERABLE_FLAG, BACKORDERABLE_FLAG FROM vMTL_SYSTEM_ITEMS"
+                    "sql": "SELECT PART_NUMBER, PLANNING_TIME_FENCE_CODE, ORDERABLE_FLAG, BACKORDERABLE_FLAG FROM ENTERPRISE_INVENTORY"
                 },
                 {
                     "question": "List all unique suppliers",
-                    "sql": "SELECT DISTINCT SUPPLIER FROM vMTL_SYSTEM_ITEMS WHERE SUPPLIER IS NOT NULL"
+                    "sql": "SELECT DISTINCT SUPPLIER FROM ENTERPRISE_INVENTORY WHERE SUPPLIER IS NOT NULL"
                 },
                 {
                     "question": "List all items, their corresponding cost of sales account, and the total quantity ordered",
-                    "sql": "SELECT PART_NUMBER, COST_OF_SALES_ACCOUNT, SUM(QUANTITY_ORDERED) AS TOTAL_ORDERED FROM vMTL_SYSTEM_ITEMS GROUP BY PART_NUMBER, COST_OF_SALES_ACCOUNT"
+                    "sql": "SELECT PART_NUMBER, COST_OF_SALES_ACCOUNT, SUM(QUANTITY_ORDERED) AS TOTAL_ORDERED FROM ENTERPRISE_INVENTORY GROUP BY PART_NUMBER, COST_OF_SALES_ACCOUNT"
                 }
                 ]
 
@@ -955,7 +955,7 @@ class TextToSQLModel:
             # Default schema if file doesn't exist
             return {
                 "tables": {
-                    "vMTL_SYSTEM_ITEMS": {
+                    "ENTERPRISE_INVENTORY": {
                         "columns": [
                             "ORGANIZATION_ID", "ORGANIZATION_CODE", "INVENTORY_ITEM_ID", "PART_NUMBER", "DESCRIPTION","ITEM_TYPE", "ITEM_TYPE_NAME", "INVENTORY_ITEM_STATUS_CODE", "PLANNER_CODE", "PLANNER_NAME",
                 "BUYER_NAME", "PLANNING_MAKE_BUY_CODE_NAME", "ACCOUNTING_RULE_ID", "ACCOUNTING_RULE_NAME",
@@ -977,18 +977,18 @@ class TextToSQLModel:
                     }
                 },
                 "relationships": [
-                    {"from": "vMTL_SYSTEM_ITEMS.SUPPLIER", "to": "suppliers.SUPPLIER_ID"},
-                    {"from": "vMTL_SYSTEM_ITEMS.BUYER_NAME", "to": "engineers.ENGINEER_ID"},
-                    {"from": "inventory.PART_NUMBER", "to": "vMTL_SYSTEM_ITEMS.PART_NUMBER"}
+                    {"from": "ENTERPRISE_INVENTORY.SUPPLIER", "to": "suppliers.SUPPLIER_ID"},
+                    {"from": "ENTERPRISE_INVENTORY.BUYER_NAME", "to": "engineers.ENGINEER_ID"},
+                    {"from": "inventory.PART_NUMBER", "to": "ENTERPRISE_INVENTORY.PART_NUMBER"}
                 ],
                 "patterns": {
                     "date_columns": [
-                        "vMTL_SYSTEM_ITEMS.CREATION_DATE",
-                        "vMTL_SYSTEM_ITEMS.LAST_UPDATE_DATE"
+                        "ENTERPRISE_INVENTORY.CREATION_DATE",
+                        "ENTERPRISE_INVENTORY.LAST_UPDATE_DATE"
                     ],
                     "category_columns": [
-                        "vMTL_SYSTEM_ITEMS.ITEM_TYPE",
-                        "vMTL_SYSTEM_ITEMS.ITEM_TYPE_NAME"
+                        "ENTERPRISE_INVENTORY.ITEM_TYPE",
+                        "ENTERPRISE_INVENTORY.ITEM_TYPE_NAME"
                     ]
                 }
             }
@@ -1087,7 +1087,7 @@ class TextToSQLModel:
                     year = year_pattern.group(1)
                     # Set the date to the first day of the next month
                     next_month_number = str(int(month_number) + 1).zfill(2)  # Increment month
-                    return f"SELECT * FROM vMTL_SYSTEM_ITEMS WHERE CREATION_DATE >= '{year}-{next_month_number}-01'"
+                    return f"SELECT * FROM ENTERPRISE_INVENTORY WHERE CREATION_DATE >= '{year}-{next_month_number}-01'"
 
         # Get schema information
         date_columns = self.schema.get("patterns", {}).get("date_columns", [])
